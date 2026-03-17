@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Travel Blog{% endblock %}</title>
+    <title>{% block title %}Chester Explorer Hub{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Playfair+Display:wght@600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
 <body>
     <header class="site-header">
         <div class="header-inner">
-            <a href="{{ url_for('home') }}" class="brand">Roam Journal</a>
+            <a href="{{ url_for('home') }}" class="brand">Chester Explorer Hub</a>
             <nav class="top-nav">
                 <a href="{{ url_for('home') }}">Home</a>
                 <a href="{{ url_for('trip_planner') }}">Trip Planner</a>
@@ -47,7 +47,7 @@
     <footer class="site-footer">
         <div class="footer-inner">
             <div>
-                <h3>Roam Journal</h3>
+                <h3>Chester Explorer Hub</h3>
                 <p>Thoughtful travel stories, practical guides, and destination inspiration.</p>
             </div>
             <form action="{{ url_for('subscribe') }}" method="post" class="newsletter-form">

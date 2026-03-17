@@ -1,6 +1,6 @@
-# Travel Blog System (Flask)
+# Chester Explorer Hub (Flask)
 
-A simple travel blog system with:
+A personal content platform for Chester Explorer Hub with:
 
 - Public home page with latest posts and destinations
 - Individual blog post pages
