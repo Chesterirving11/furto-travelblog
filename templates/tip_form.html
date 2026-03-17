@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}New Travel Tip | Roam Journal{% endblock %}
+
+{% block content %}
+<section class="narrow">
+    <h1>Add Travel Tip</h1>
+    <form method="post" class="form-card">
+        <label for="title">Tip Title</label>
+        <input id="title" name="title" type="text" required>
+
+        <label for="content">Tip Content</label>
+        <textarea id="content" name="content" rows="5" required></textarea>
+
+        <label for="destination_id">Destination</label>
+        <select id="destination_id" name="destination_id" required>
+            <option value="">Select destination</option>
+            {% for destination in destinations %}
+                <option value="{{ destination.id }}">{{ destination.name }} ({{ destination.country }})</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Create Tip</button>
+    </form>
+</section>
+{% endblock %}

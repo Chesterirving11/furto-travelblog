@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}New Destination | Roam Journal{% endblock %}
+
+{% block content %}
+<section class="narrow">
+    <h1>Add Destination</h1>
+    <form method="post" class="form-card">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required>
+
+        <label for="country">Country</label>
+        <input id="country" name="country" type="text" required>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="image_url">Image URL</label>
+        <input id="image_url" name="image_url" type="url" required>
+
+        <button type="submit">Create Destination</button>
+    </form>
+</section>
+{% endblock %}

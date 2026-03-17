@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Guest Satisfaction | Roam Journal{% endblock %}
+
+{% block content %}
+<section class="narrow">
+    <h1>Guest Satisfaction</h1>
+    <p class="meta">Current average satisfaction: {{ avg_rating }}/5</p>
+
+    <form method="post" class="form-card">
+        <label for="guest_name">Name</label>
+        <input id="guest_name" name="guest_name" type="text" required>
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+
+        <label for="rating">Rating</label>
+        <select id="rating" name="rating" required>
+            <option value="">Select rating</option>
+            <option value="5">5 - Excellent</option>
+            <option value="4">4 - Very Good</option>
+            <option value="3">3 - Good</option>
+            <option value="2">2 - Needs Improvement</option>
+            <option value="1">1 - Poor</option>
+        </select>
+
+        <label for="highlight">What did you like most?</label>
+        <input id="highlight" name="highlight" type="text" required>
+
+        <label for="suggestion">What should we improve?</label>
+        <textarea id="suggestion" name="suggestion" rows="5" required></textarea>
+
+        <button type="submit">Submit Satisfaction</button>
+    </form>
+</section>
+
+<section>
+    <h2>Recent Guest Feedback</h2>
+    <div class="simple-list">
+        {% for item in recent_feedback %}
+            <article class="simple-item">
+                <p class="meta">{{ item.guest_name }} | Rating: {{ item.rating }}/5</p>
+                <p><strong>Highlight:</strong> {{ item.highlight }}</p>
+                <p><strong>Suggestion:</strong> {{ item.suggestion }}</p>
+            </article>
+        {% else %}
+            <p>No guest satisfaction entries yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

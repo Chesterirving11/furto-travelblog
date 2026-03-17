@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}New Post | Roam Journal{% endblock %}
+
+{% block content %}
+<section class="narrow">
+    <h1>Add Post</h1>
+    <form method="post" class="form-card">
+        <label for="title">Title</label>
+        <input id="title" name="title" type="text" required>
+
+        <label for="excerpt">Excerpt</label>
+        <textarea id="excerpt" name="excerpt" rows="2" required></textarea>
+
+        <label for="content">Content</label>
+        <textarea id="content" name="content" rows="8" required></textarea>
+
+        <label for="cover_image">Cover Image URL</label>
+        <input id="cover_image" name="cover_image" type="url" required>
+
+        <label for="destination_id">Destination</label>
+        <select id="destination_id" name="destination_id" required>
+            <option value="">Select destination</option>
+            {% for destination in destinations %}
+                <option value="{{ destination.id }}">{{ destination.name }} ({{ destination.country }})</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Create Post</button>
+    </form>
+</section>
+{% endblock %}

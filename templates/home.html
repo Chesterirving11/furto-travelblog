@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block title %}Travel Blog | Roam Journal{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <p class="chip">Curated travel stories</p>
+    <h1>Explore the world with practical guides and cinematic journals.</h1>
+    <p>Find weekend itineraries, budget-friendly route ideas, and firsthand recommendations from each destination.</p>
+
+    <form method="get" action="{{ url_for('home') }}" class="search-panel">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search by title, keyword, country...">
+        <select name="destination">
+            <option value="">All destinations</option>
+            {% for destination in destinations %}
+                <option value="{{ destination.name }}" {% if destination_filter == destination.name %}selected{% endif %}>{{ destination.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="sort">
+            <option value="latest" {% if sort_by == 'latest' %}selected{% endif %}>Latest</option>
+            <option value="popular" {% if sort_by == 'popular' %}selected{% endif %}>Most discussed</option>
+        </select>
+        <button type="submit">Apply</button>
+    </form>
+
+    <div class="hero-actions">
+        <a href="{{ url_for('trip_planner') }}" class="button">Plan a Trip</a>
+        <a href="{{ url_for('fresh_travel_tips') }}" class="button alt">Share Fresh Tip</a>
+        <a href="{{ url_for('guest_satisfaction') }}" class="button alt">Rate Your Experience</a>
+    </div>
+</section>
+
+{% if featured_post %}
+<section class="featured-wrap">
+    <h2>Featured Story</h2>
+    <article class="featured-card">
+        <img src="{{ featured_post.cover_image }}" alt="{{ featured_post.title }}">
+        <div>
+            <p class="meta">{{ featured_post.destination.name }}, {{ featured_post.destination.country }}</p>
+            <h3>{{ featured_post.title }}</h3>
+            <p>{{ featured_post.excerpt }}</p>
+            <a href="{{ url_for('post_detail', slug=featured_post.slug) }}" class="button">Read featured story</a>
+        </div>
+    </article>
+</section>
+{% endif %}
+
+<section class="grid two-col">
+    <div>
+        <h2>Latest Posts</h2>
+        {% if posts %}
+            <div class="card-list">
+                {% for post in posts %}
+                    <article class="post-card">
+                        <img src="{{ post.cover_image }}" alt="{{ post.title }} cover">
+                        <div class="post-card-body">
+                            <p class="meta">{{ post.destination.name }}, {{ post.destination.country }} | {{ post.published_at.strftime('%b %d, %Y') }}</p>
+                            <h3>{{ post.title }}</h3>
+                            <p>{{ post.excerpt }}</p>
+                            <div class="post-actions">
+                                <a href="{{ url_for('post_detail', slug=post.slug) }}" class="btn-link">Read story</a>
+                                <form action="{{ url_for('toggle_favorite', slug=post.slug) }}" method="post">
+                                    <button type="submit" class="ghost-btn">
+                                        {% if post.slug in favorites %}Saved{% else %}Save{% endif %}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No posts yet.</p>
+        {% endif %}
+    </div>
+
+    <aside>
+        <h2>Destination Spotlight</h2>
+        <div class="destination-list">
+            {% for destination, post_count in destination_spotlight %}
+                <div class="destination-card">
+                    <img src="{{ destination.image_url }}" alt="{{ destination.name }}">
+                    <div>
+                        <h4>{{ destination.name }} <span class="meta">({{ post_count }} posts)</span></h4>
+                        <p class="meta">{{ destination.country }}</p>
+                        <p>{{ destination.description }}</p>
+                        <a href="{{ url_for('destination_detail', destination_id=destination.id) }}" class="btn-link">View destination guide</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </aside>
+</section>
+
+<section class="tips-board">
+    <div class="section-head">
+        <h2>Editor Travel Tips</h2>
+        <a href="{{ url_for('fresh_travel_tips') }}" class="btn-link">View all fresh tips</a>
+    </div>
+    <div class="simple-list">
+        {% for tip in latest_tips %}
+            <article class="simple-item">
+                <p class="meta">{{ tip.destination.name }}, {{ tip.destination.country }}</p>
+                <h3>{{ tip.title }}</h3>
+                <p>{{ tip.content }}</p>
+            </article>
+        {% else %}
+            <p>No travel tips yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="grid two-col feedback-board">
+    <div class="simple-item">
+        <h2>Guest Satisfaction</h2>
+        <p class="meta">Average rating: {{ avg_rating }}/5 from {{ satisfaction_count }} guests</p>
+        <p>Tell us how your experience was and what features you want next.</p>
+        <a href="{{ url_for('guest_satisfaction') }}" class="button">Submit Satisfaction Review</a>
+    </div>
+
+    <div>
+        <h2>Fresh Travel Tips</h2>
+        <div class="simple-list">
+            {% for tip in fresh_tips %}
+                <article class="simple-item">
+                    <p class="meta">{{ tip.destination }} | by {{ tip.author_name }}</p>
+                    <p>{{ tip.tip }}</p>
+                    <p class="meta">Likes: {{ tip.likes }}</p>
+                    <form method="post" action="{{ url_for('like_fresh_tip', tip_id=tip.id) }}">
+                        <button type="submit" class="ghost-btn">Like Tip</button>
+                    </form>
+                </article>
+            {% else %}
+                <p>No guest tips yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

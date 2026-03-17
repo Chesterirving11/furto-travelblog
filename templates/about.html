@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}About | Roam Journal{% endblock %}
+
+{% block content %}
+<section class="hero about-hero">
+    <p class="chip">About Roam Journal</p>
+    <h1>We publish travel stories that are beautiful and useful.</h1>
+    <p>Roam Journal combines diary-style storytelling with practical recommendations, so readers can dream and plan in one place.</p>
+</section>
+
+<section class="metric-row spaced">
+    <div class="metric-card">
+        <h3>{{ post_count }}</h3>
+        <p>Published Stories</p>
+    </div>
+    <div class="metric-card">
+        <h3>{{ destination_count }}</h3>
+        <p>Destinations Covered</p>
+    </div>
+    <div class="metric-card">
+        <h3>{{ subscriber_count }}</h3>
+        <p>Newsletter Readers</p>
+    </div>
+</section>
+
+<section class="content-panel">
+    <h2>Editorial Style</h2>
+    <p>Every piece includes route options, realistic budget notes, local etiquette, and photography timing tips. We prioritize accessibility, responsible travel, and authentic experiences over checklist tourism.</p>
+</section>
+{% endblock %}

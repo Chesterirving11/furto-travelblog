@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Trip Planner | Roam Journal{% endblock %}
+
+{% block content %}
+<section class="planner-layout">
+    <div class="planner-copy">
+        <p class="chip dark">Smart Planning Tool</p>
+        <h1>Trip Budget Planner</h1>
+        <p>Estimate your budget in seconds. Choose your style, duration, and destination to get a realistic spending range.</p>
+    </div>
+
+    <form method="post" class="form-card planner-form">
+        <label for="destination_name">Destination</label>
+        <input id="destination_name" name="destination_name" type="text" placeholder="e.g. Siargao" required>
+
+        <label for="days">Number of days</label>
+        <input id="days" name="days" type="number" min="1" max="60" required>
+
+        <label for="style">Travel style</label>
+        <select id="style" name="style" required>
+            <option value="budget">Budget</option>
+            <option value="midrange" selected>Midrange</option>
+            <option value="comfort">Comfort</option>
+            <option value="luxury">Luxury</option>
+        </select>
+
+        <button type="submit">Estimate Budget</button>
+    </form>
+</section>
+
+{% if estimate %}
+<section class="budget-result">
+    <h2>Estimated Budget for {{ estimate.destination }}</h2>
+    <div class="metric-row">
+        <div class="metric-card">
+            <h3>${{ estimate.daily_budget }}</h3>
+            <p>Daily Budget ({{ estimate.style }})</p>
+        </div>
+        <div class="metric-card">
+            <h3>${{ estimate.subtotal }}</h3>
+            <p>Base Cost for {{ estimate.days }} days</p>
+        </div>
+        <div class="metric-card">
+            <h3>${{ estimate.misc }}</h3>
+            <p>Extras Buffer (15%)</p>
+        </div>
+    </div>
+    <div class="total-card">
+        <p class="meta">Recommended total trip budget</p>
+        <h3>${{ estimate.total }}</h3>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

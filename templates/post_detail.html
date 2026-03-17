@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title }} | Roam Journal{% endblock %}
+
+{% block content %}
+<article class="post-detail">
+    <img src="{{ post.cover_image }}" alt="{{ post.title }} cover" class="cover">
+    <p class="meta">{{ post.destination.name }}, {{ post.destination.country }} | {{ post.published_at.strftime('%b %d, %Y') }} | {{ read_time }} min read</p>
+    <h1>{{ post.title }}</h1>
+    <form action="{{ url_for('toggle_favorite', slug=post.slug) }}" method="post">
+        <button type="submit" class="ghost-btn">{% if is_favorite %}Remove from saved{% else %}Save this story{% endif %}</button>
+    </form>
+    {% for paragraph in post.content.split('\n\n') %}
+        <p>{{ paragraph }}</p>
+    {% endfor %}
+</article>
+
+{% if related_posts %}
+<section class="related-posts">
+    <h2>More from {{ post.destination.name }}</h2>
+    <div class="card-list">
+        {% for item in related_posts %}
+            <article class="post-card compact">
+                <img src="{{ item.cover_image }}" alt="{{ item.title }} cover">
+                <div class="post-card-body">
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.excerpt }}</p>
+                    <a href="{{ url_for('post_detail', slug=item.slug) }}" class="btn-link">Read story</a>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="comment-section">
+    <h2>Comments</h2>
+
+    <form method="post" class="form-card">
+        <label for="author_name">Your Name</label>
+        <input type="text" id="author_name" name="author_name" required>
+
+        <label for="content">Your Comment</label>
+        <textarea id="content" name="content" rows="4" required></textarea>
+
+        <button type="submit">Post Comment</button>
+    </form>
+
+    {% if comments %}
+        <div class="comment-list">
+            {% for comment in comments %}
+                <div class="comment-item">
+                    <p class="meta">{{ comment.author_name }} | {{ comment.created_at.strftime('%b %d, %Y %H:%M') }}</p>
+                    <p>{{ comment.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No comments yet. Be the first to share one.</p>
+    {% endif %}
+</section>
+{% endblock %}

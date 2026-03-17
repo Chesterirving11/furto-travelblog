@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Fresh Travel Tips | Roam Journal{% endblock %}
+
+{% block content %}
+<section class="narrow">
+    <h1>Fresh Travel Tips</h1>
+    <p class="meta">Share quick practical advice for fellow travelers.</p>
+
+    <form method="post" class="form-card">
+        <label for="author_name">Your Name</label>
+        <input id="author_name" name="author_name" type="text" required>
+
+        <label for="destination">Destination</label>
+        <input id="destination" name="destination" type="text" placeholder="e.g. Baguio" required>
+
+        <label for="tip">Your Tip</label>
+        <textarea id="tip" name="tip" rows="5" required></textarea>
+
+        <button type="submit">Share Tip</button>
+    </form>
+</section>
+
+<section>
+    <div class="section-head">
+        <h2>Community Tips Feed</h2>
+        <a href="{{ url_for('home') }}" class="btn-link">Back to Home</a>
+    </div>
+    <div class="simple-list">
+        {% for item in tips %}
+            <article class="simple-item">
+                <p class="meta">{{ item.destination }} | by {{ item.author_name }} | {{ item.created_at.strftime('%b %d, %Y') }}</p>
+                <p>{{ item.tip }}</p>
+                <form method="post" action="{{ url_for('like_fresh_tip', tip_id=item.id) }}">
+                    <button type="submit" class="ghost-btn">Helpful ({{ item.likes }})</button>
+                </form>
+            </article>
+        {% else %}
+            <p>No fresh tips yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

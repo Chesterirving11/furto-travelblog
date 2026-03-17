@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard | Roam Journal{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Admin Dashboard</h1>
+    <div class="metric-row">
+        <div class="metric-card">
+            <h3>{{ posts|length }}</h3>
+            <p>Total Posts</p>
+        </div>
+        <div class="metric-card">
+            <h3>{{ destinations|length }}</h3>
+            <p>Destinations</p>
+        </div>
+        <div class="metric-card">
+            <h3>{{ newsletter_count }}</h3>
+            <p>Newsletter Subscribers</p>
+        </div>
+        <div class="metric-card">
+            <h3>{{ tips_count }}</h3>
+            <p>Travel Tips</p>
+        </div>
+        <div class="metric-card">
+            <h3>{{ fresh_tip_count }}</h3>
+            <p>Fresh Guest Tips</p>
+        </div>
+        <div class="metric-card">
+            <h3>{{ guest_feedback_count }}</h3>
+            <p>Guest Satisfaction Entries</p>
+        </div>
+    </div>
+    <div class="action-row">
+        <a class="button" href="{{ url_for('admin_new_destination') }}">Add Destination</a>
+        <a class="button" href="{{ url_for('admin_new_post') }}">Add Post</a>
+        <a class="button" href="{{ url_for('admin_new_tip') }}">Add Travel Tip</a>
+        <a class="button" href="{{ url_for('fresh_travel_tips') }}">View Fresh Tips</a>
+        <a class="button" href="{{ url_for('guest_satisfaction') }}">View Guest Satisfaction</a>
+    </div>
+</section>
+
+<section class="grid two-col">
+    <div>
+        <h2>Posts</h2>
+        <div class="simple-list">
+            {% for post in posts %}
+                <div class="simple-item">
+                    <strong>{{ post.title }}</strong>
+                    <p class="meta">{{ post.destination.name }} | {{ post.published_at.strftime('%b %d, %Y') }}</p>
+                </div>
+            {% else %}
+                <p>No posts yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div>
+        <h2>Destinations</h2>
+        <div class="simple-list">
+            {% for destination in destinations %}
+                <div class="simple-item">
+                    <strong>{{ destination.name }}</strong>
+                    <p class="meta">{{ destination.country }}</p>
+                </div>
+            {% else %}
+                <p>No destinations yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Recent Contact Messages</h2>
+    <div class="simple-list">
+        {% for item in recent_messages %}
+            <div class="simple-item">
+                <strong>{{ item.subject }}</strong>
+                <p class="meta">{{ item.name }} ({{ item.email }}) | {{ item.created_at.strftime('%b %d, %Y %H:%M') }}</p>
+                <p>{{ item.message }}</p>
+            </div>
+        {% else %}
+            <p>No contact messages yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
